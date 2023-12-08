@@ -1,8 +1,8 @@
 # WebImageGallery
 
-1. Generate metadata using
-   cd shell
-   ./metadata-generate ../public/data/
+1. Generate metadata using: 
+   cd shell;
+   ./metadata-generate.sh ../public/data/ (or another folder tree with photos)
 
 2. make
 3. copy and unpack release/final.tar.zst to destination web
