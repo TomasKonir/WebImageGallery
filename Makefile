@@ -1,6 +1,7 @@
 all:
 	mkdir -p build
 	npm run build
+	rm -rf build/data/
 	find build/ -name \*map | xargs rm
 	find build/ -name \*LICENSE.txt | xargs rm
 	gzip -6 -k build/static/js/*js
