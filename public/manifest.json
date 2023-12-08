@@ -1,0 +1,10 @@
+{
+    "name": "WebImageGallery",
+    "short_name": "WebImageGallery",
+    "lang": "cs-CZ",
+    "id" : "WebImageGallery",
+    "start_url": "./index.html",
+    "display": "fullscreen",
+    "background_color": "black",
+    "theme_color": "black"
+  }

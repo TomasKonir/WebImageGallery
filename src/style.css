@@ -1,0 +1,236 @@
+/* width */
+::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 4px grey;
+    border-radius: 0.25rem;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgb(105, 105, 105, 0.75);
+    border-radius: 0.25rem;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(105, 105, 105, 1);
+}
+
+.centered-vertical {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.spacer {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hline {
+    width: 100%;
+    height: 1px;
+    min-height: 1px;
+    max-height: 1px;
+    background-color: darkgray;
+}
+
+.vline {
+    height: 100%;
+    width: 1px;
+    min-width: 1px;
+    max-width: 1px;
+    background-color: darkgray;
+}
+
+.selected {
+    background-color: lightblue;
+}
+
+.root {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding: 0rem;
+    background-color: black;
+}
+
+.body-wide {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    overflow: hidden;
+}
+
+.body-mobile {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    overflow: hidden;
+}
+
+.header {
+    min-width: 100%;
+    max-width: 100%;
+    display: flex;
+    gap: 0.15rem;
+    justify-content: center;
+    color: lightgray;
+}
+
+.header-text {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.dir-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0.15rem;
+    min-width: fit-content;
+}
+
+.dir-entry {
+    cursor: pointer;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    background-color: #222222;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    min-height: 1.6rem;
+}
+
+.dir-entry:hover {
+    background-color: #333333;
+}
+
+.thumbnail-list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    align-content: flex-start;
+    overflow-y: auto;
+}
+
+.thumbnail {
+    padding: 4px;
+    border-radius: 0.25rem;
+    display: flex;
+    cursor: grab;
+    max-width: 100%;
+}
+
+.thumbnail:hover {
+    background-color: darkgray;
+}
+
+.thumbnail-img {
+    border-radius: 0.25rem;
+    border-width: 1px;
+    border-style: solid;
+    border-color: darkslategrey;
+    margin-top: auto;
+    margin-bottom: auto;
+    height: auto;
+    max-height: 128px;
+    max-width: 100%;
+    background-color: darkslategrey;
+}
+
+.big-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    z-index: 100;
+}
+
+.big-image-content {
+    max-width: 100%;
+    max-height: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: auto;
+    position: relative;
+}
+
+.big-image-column {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.big-image-thumbnails {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+.big-image-thumbnails-row {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.big-image-thumbnail {
+    width: auto;
+    height: 6rem;
+    max-width: 6rem;
+    object-fit: cover;
+    background-color: #161616;
+    border-color: transparent;
+}
+
+.big-image-thumbnail-row {
+    width: 6rem;
+    height: auto;
+    max-height: 6rem;
+    object-fit: cover;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #161616;
+    border-color: transparent;
+}
+
+.big-image-img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+.big-image-thumbnails-horizontal {
+    width: 100%;
+    overflow-x: auto;
+    min-height: 7.5rem;
+}
+
+.big-image-thumbnails-vertical {
+    height: 100%;
+    overflow-y: auto;
+    min-width: 7.5rem;
+}
