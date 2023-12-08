@@ -34,4 +34,8 @@ find "$1" -type d | sort | while read DIR; do
 	echo "Creating index in: $DIR"
 	jq -s 'add' "$DIR/"*_metadata.json | jq "[.[] | $FILTER]" | gzip -6 >"$DIR/index.json.gz"
 done
-./index-dirs.sh | gzip -6 >"$1"/dirs.json.gz
+
+D=$(pwd)
+pushd "$1"
+"$D"/index-dirs.sh | gzip -6 >dirs.json.gz
+popd
