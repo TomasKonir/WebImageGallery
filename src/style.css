@@ -45,6 +45,14 @@
     z-index: 200;
 }
 
+.top-center {
+    position: absolute;
+    top: 0.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+}
+
 .spacer {
     margin-left: auto;
     margin-right: auto;

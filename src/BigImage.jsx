@@ -6,8 +6,6 @@ import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import FullscreenIcon from '@mui/icons-material/Fullscreen'
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
-import ArrowLeftIcon from '@mui/icons-material/ArrowLeft'
-import ArrowRightIcon from '@mui/icons-material/ArrowRight'
 
 import Thumbnail from './Thumbnail'
 import { clickA, downloadUrl, fullScreenEnter, fullScreenLeave } from './tools'
@@ -141,7 +139,7 @@ export default class BigImage extends React.Component {
             small.splice(small.length - 1, 1)
         }
         let thumbnail = small.join('.') + '_thumbnail.webp'
-        if (src.endsWith('.mp4')) {
+        if (src.toLowerCase().endsWith('.mp4')) {
             small = small.join('.') + '_small.mp4'
         } else {
             small = small.join('.') + '_small.webp'
@@ -174,10 +172,13 @@ export default class BigImage extends React.Component {
                     <FileDownloadIcon />
                 </IconButton>
             </div>
+            <div className='top-center'>
+                {img.FileName}, {img.FileSize}, {img.ImageWidth}x{img.ImageHeight}
+            </div>
         </React.Fragment>
 
         let bigImage
-        if (small.endsWith('mp4')) {
+        if (small.toLowerCase().endsWith('.mp4')) {
             bigImage = <div className='big-image-content' onTouchStart={this.touchStart} onTouchEnd={this.touchEnd}>
                 {bigImageControls}
                 <video className="big-image-img" src={small} controls autoPlay={true}>
