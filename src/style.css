@@ -25,9 +25,34 @@
     margin-bottom: auto;
 }
 
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.top-left {
+    position: absolute;
+    top: 0.25rem;
+    left: 0.25rem;
+    z-index: 200;
+}
+
+.top-right {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+    z-index: 200;
+}
+
 .spacer {
     margin-left: auto;
     margin-right: auto;
+}
+
+.spacer-vertical {
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .hline {

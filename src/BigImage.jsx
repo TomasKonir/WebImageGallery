@@ -147,57 +147,46 @@ export default class BigImage extends React.Component {
             small = small.join('.') + '_small.webp'
         }
 
-        let extended
-        if (!window.isMobile) {
-            extended = ', ' + img.ImageWidth + 'x' + img.ImageHeight + ', ' + img.FileSize + (img.CreateDate !== null ? (', ' + img.CreateDate) : '')
-        }
-
-        let header = <div className='header'>
-            <IconButton onClick={this.props.onClose} size='small'>
-                <ArrowBackIosIcon />
-            </IconButton>
-            <div className='spacer' />
-            <IconButton size='small' onClick={this.prev}>
-                <ArrowLeftIcon />
-            </IconButton>
-            <div className='centered-vertical' style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 'calc(100% - 14rem)', overflow: 'hidden' }}>
-                {this.state.list[this.state.index].FileName}
-                {extended}
-            </div>
-            <IconButton size='small' onClick={this.next}>
-                <ArrowRightIcon />
-            </IconButton>
-            <div className='spacer' />
-            <IconButton onClick={() => downloadUrl(src)} size='small'>
-                <FileDownloadIcon />
-            </IconButton>
-            {!window.isMobile ?
-                (this.state.fullscreen ?
-                    <IconButton onClick={fullScreenLeave} size='small'>
-                        <FullscreenExitIcon />
-                    </IconButton>
-                    :
-                    <IconButton onClick={fullScreenEnter} size='small'>
-                        <FullscreenIcon />
-                    </IconButton>
-                ) : ''
-            }
-        </div>
-
         let ee = document.getElementById('big-image-img-waiting')
         if (ee !== null) {
             ee.style.display = 'block'
         }
 
+        let bigImageControls = <React.Fragment>
+            <div className='top-left'>
+                <IconButton onClick={this.props.onClose} size='small'>
+                    <ArrowBackIosIcon />
+                </IconButton>
+            </div>
+            <div className='top-right'>
+                {!window.isMobile ?
+                    (this.state.fullscreen ?
+                        <IconButton onClick={fullScreenLeave} size='small'>
+                            <FullscreenExitIcon />
+                        </IconButton>
+                        :
+                        <IconButton onClick={fullScreenEnter} size='small'>
+                            <FullscreenIcon />
+                        </IconButton>
+                    ) : ''
+                }
+                <IconButton onClick={() => downloadUrl(src)} size='small'>
+                    <FileDownloadIcon />
+                </IconButton>
+            </div>
+        </React.Fragment>
+
         let bigImage
         if (small.endsWith('mp4')) {
             bigImage = <div className='big-image-content' onTouchStart={this.touchStart} onTouchEnd={this.touchEnd}>
-                <video className="big-image-img" src={small} controls autoplay>
+                {bigImageControls}
+                <video className="big-image-img" src={small} controls autoPlay={true}>
                     Your browser does not support the video tag.
                 </video>
             </div>
         } else {
             bigImage = <div className='big-image-content' onTouchStart={this.touchStart} onTouchEnd={this.touchEnd}>
+                {bigImageControls}
                 <img
                     id='big-image-img'
                     className='big-image-img'
@@ -232,11 +221,7 @@ export default class BigImage extends React.Component {
         if (row) {
             return (
                 <div id='big-image' className='big-image' style={{ height: this.state.vh, flexDirection: 'row' }}>
-                    <div className='big-image-column'>
-                        {header}
-                        <div className='hline' />
-                        {bigImage}
-                    </div>
+                    {bigImage}
                     <div className='vline' />
                     <div className='big-image-thumbnails-vertical' id='big-image-thumbnails'>
                         <div className='big-image-thumbnails-row'>
@@ -248,8 +233,6 @@ export default class BigImage extends React.Component {
         } else {
             return (
                 <div id='big-image' className='big-image' style={{ height: this.state.vh }}>
-                    {header}
-                    <div className='hline' />
                     {bigImage}
                     <div className='hline' />
                     <div className='big-image-thumbnails-horizontal' id='big-image-thumbnails'>
