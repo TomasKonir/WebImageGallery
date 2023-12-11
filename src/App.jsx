@@ -12,6 +12,9 @@ import { fetchGz } from './tools'
 import ThumbnailList from './ThumbnailList'
 import { IconButton } from '@mui/material'
 
+import ImageIcon from '@mui/icons-material/Image'
+import FolderOpenIcon from '@mui/icons-material/FolderOpen'
+
 import { fullScreenEnter, fullScreenLeave } from './tools'
 
 
@@ -21,6 +24,8 @@ class DirEntry extends React.Component {
         let list = []
         let style = {
             marginLeft: (this.props.depth * 1) + 'rem',
+            display: 'flex',
+            borderRadius: '0.25rem',
         }
         if (this.props.depth >= 0) {
             let clickable = this.props.subdirs._count > 0
@@ -30,7 +35,7 @@ class DirEntry extends React.Component {
             if (this.props.dir === this.props.base) {
                 style.backgroundColor = '#08045e'
             }
-            if(window.isMobile){
+            if (window.isMobile) {
                 style.fontSize = '1.4rem'
                 style.minHeight = '2rem'
             }
@@ -41,7 +46,14 @@ class DirEntry extends React.Component {
                     style={style}
                     onClick={clickable ? () => this.props.onClick(this.props.base) : null}
                 >
-                    {this.props.name.split('_').join(' ').split('-').join(' ')}
+                    {clickable ?
+                        <ImageIcon size='small' sx={{ marginRight: '0.25rem', marginTop: 'auto', marginBottom: 'auto' }} />
+                        :
+                        <FolderOpenIcon size='small' sx={{ marginRight: '0.25rem', marginTop: 'auto', marginBottom: 'auto' }} />
+                    }
+                    <div style={{ marginTop: 'auto', marginBottom: 'auto' }}>
+                        {this.props.name.split('_').join(' ').split('-').join(' ')}
+                    </div>
                 </div>
             )
         }
@@ -148,7 +160,7 @@ class App extends React.Component {
                         <div className='body-mobile'>
                             <div className='header'>
                                 <IconButton size='small' onClick={() => {
-                                    this.setState({dir : ''})
+                                    this.setState({ dir: '' })
                                     if (this.state.fullscreen) {
                                         fullScreenLeave()
                                     }

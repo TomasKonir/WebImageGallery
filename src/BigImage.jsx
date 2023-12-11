@@ -141,7 +141,11 @@ export default class BigImage extends React.Component {
             small.splice(small.length - 1, 1)
         }
         let thumbnail = small.join('.') + '_thumbnail.webp'
-        small = small.join('.') + '_small.webp'
+        if (src.endsWith('.mp4')) {
+            small = small.join('.') + '_small.mp4'
+        } else {
+            small = small.join('.') + '_small.webp'
+        }
 
         let extended
         if (!window.isMobile) {
@@ -185,8 +189,15 @@ export default class BigImage extends React.Component {
             ee.style.display = 'block'
         }
 
-        let bigImage =
-            <div className='big-image-content' onTouchStart={this.touchStart} onTouchEnd={this.touchEnd}>
+        let bigImage
+        if (small.endsWith('mp4')) {
+            bigImage = <div className='big-image-content' onTouchStart={this.touchStart} onTouchEnd={this.touchEnd}>
+                <video className="big-image-img" src={small} controls muted autoPlay>
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        } else {
+            bigImage = <div className='big-image-content' onTouchStart={this.touchStart} onTouchEnd={this.touchEnd}>
                 <img
                     id='big-image-img'
                     className='big-image-img'
@@ -216,6 +227,7 @@ export default class BigImage extends React.Component {
                     }}
                 />
             </div>
+        }
 
         if (row) {
             return (

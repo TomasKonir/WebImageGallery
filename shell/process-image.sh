@@ -1,7 +1,8 @@
 #!/bin/bash
 
-EXTENSIONS="jpg jpeg tif tiff png"
+EXTENSIONS="jpg jpeg tif tiff png mp4"
 SMALL_SIZE=1280
+SMALL_VIDEO_SIZE=720
 SMALL_QUALITY=85
 THUMB_SIZE=128
 THUMB_QUALITY=75
@@ -13,7 +14,6 @@ fi
 
 EXT=$(echo "${1##*.}" | tr "[:upper:]" "[:lower:]")
 THUMB="${1%.*}"_thumbnail.webp
-SMALL="${1%.*}"_small.webp
 META="${1%.*}"_metadata.json
 
 #check file exists
@@ -44,25 +44,52 @@ if [ -f "$THUMB" ]; then
 	fi
 fi
 
-#create small
-convert -resize x$SMALL_SIZE -quality $SMALL_QUALITY -auto-orient "$1"[0] "$SMALL" 2>/dev/null
-if [ ! -f "$SMALL" ]; then
-	echo "Unable to create thumbnail from: $1 (maybe limits in /etc/ImageMagick-6/policy.xml)"
-	convert -list resource
-	exit 4
-fi
-exiftool -all= -overwrite_original "$SMALL" 2>/dev/null >/dev/null
-touch --date="@$MTIME_ORIG" "$SMALL"
+if [ "$EXT" == "mp4" ]; then
+	SMALL="${1%.*}"_small.mp4
+	#create small
+	ffmpeg -y -v quiet -i "$1" -movflags +faststart -c:v libx264 -b:v 1M -maxrate 1M -vf scale=-1:$SMALL_VIDEO_SIZE "$SMALL"
+	if [ ! -f "$SMALL" ]; then
+		echo "Unable to create thumbnail from: $1 (maybe limits in /etc/ImageMagick-6/policy.xml)"
+		convert -list resource
+		exit 4
+	fi
+	exiftool -all= -overwrite_original "$SMALL" 2>/dev/null >/dev/null
+	touch --date="@$MTIME_ORIG" "$SMALL"
 
-#create thumbnail
-convert -resize x$THUMB_SIZE -quality $THUMB_QUALITY -auto-orient "$SMALL" "$THUMB" 2>/dev/null
-if [ ! -f "$THUMB" ]; then
-	echo "Unable to create thumbnail from: $1 (maybe limits in /etc/ImageMagick-6/policy.xml)"
-	convert -list resource
-	exit 4
+	#create thumbnail
+	ffmpeg -y -v quiet -ss 00:00:05 -i "$1" -frames:v 1 -vf scale=-1:$THUMB_SIZE "$THUMB".webp
+	if [ ! -f "$THUMB".webp ]; then
+		echo "Unable to create thumbnail from: $1 (maybe limits in /etc/ImageMagick-6/policy.xml)"
+		convert -list resource
+		exit 4
+	fi
+	convert "$THUMB".webp video.png -gravity center -compose over -composite "$THUMB"
+	rm -f "$THUMB".webp
+	exiftool -all= -overwrite_original "$THUMB" 2>/dev/null >/dev/null
+	touch --date="@$MTIME_ORIG" "$THUMB"
+else
+	SMALL="${1%.*}"_small.webp
+	#create small
+	convert -resize x$SMALL_SIZE -quality $SMALL_QUALITY -auto-orient "$1"[0] "$SMALL" 2>/dev/null
+	if [ ! -f "$SMALL" ]; then
+		echo "Unable to create thumbnail from: $1 (maybe limits in /etc/ImageMagick-6/policy.xml)"
+		convert -list resource
+		exit 4
+	fi
+	exiftool -all= -overwrite_original "$SMALL" 2>/dev/null >/dev/null
+	touch --date="@$MTIME_ORIG" "$SMALL"
+
+	#create thumbnail
+	convert -resize x$THUMB_SIZE -quality $THUMB_QUALITY -auto-orient "$SMALL" "$THUMB" 2>/dev/null
+	if [ ! -f "$THUMB" ]; then
+		echo "Unable to create thumbnail from: $1 (maybe limits in /etc/ImageMagick-6/policy.xml)"
+		convert -list resource
+		exit 4
+	fi
+	exiftool -all= -overwrite_original "$THUMB" 2>/dev/null >/dev/null
+	touch --date="@$MTIME_ORIG" "$THUMB"
 fi
-exiftool -all= -overwrite_original "$THUMB" 2>/dev/null >/dev/null
-touch --date="@$MTIME_ORIG" "$THUMB"
+
 
 #extract metadata
 exiftool -j "$1" > "$META"

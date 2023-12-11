@@ -20,12 +20,13 @@ fi
 read -p "Clean previous data [y] or ENTER: " CLEAN
 if [ "$CLEAN" == "y" ]; then
 	echo Cleaning $1
-	for i in '*_thumbnail.webp' '*_small.webp' '*.json.gz' '*_metadata.json'; do
+	for i in '*_thumbnail.webp' '*_small.webp' '*_small.mp4' '*.json.gz' '*_metadata.json'; do
 		find "$1" -type f -name $i | parallel --colsep '\n' rm
 	done
 fi
 
-find "$1" -type f ! -name '*.json' ! -name '*_thumbnail.webp' ! -name '*_small.webp' ! -name '*.gz' ! -name '*.sh' | sort | parallel --colsep '\n' ./process-image.sh
+find "$1" -type f ! -name '*.json' ! -name '*_thumbnail.webp' ! -name '*_small.webp' ! -name '*.mp4' ! -name '*.gz' ! -name '*.sh' | sort | parallel --colsep '\n' ./process-image.sh
+find "$1" -type f ! -name '*.json' ! -name '*_thumbnail.webp' ! -name '*_small.webp' ! -name '*_small.mp4' ! -name '*.gz' ! -name '*.sh' | sort | parallel -j 1 --colsep '\n' ./process-image.sh
 
 find "$1" -type d | sort | while read DIR; do
 	if [ $(find "$DIR" -maxdepth 1 -type f -name '*_metadata.json' | wc -l) -eq 0 ]; then
