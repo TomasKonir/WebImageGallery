@@ -192,7 +192,7 @@ export default class BigImage extends React.Component {
         let bigImage
         if (small.endsWith('mp4')) {
             bigImage = <div className='big-image-content' onTouchStart={this.touchStart} onTouchEnd={this.touchEnd}>
-                <video className="big-image-img" src={small} controls muted autoPlay>
+                <video className="big-image-img" src={small} controls autoplay>
                     Your browser does not support the video tag.
                 </video>
             </div>

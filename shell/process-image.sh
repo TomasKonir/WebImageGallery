@@ -47,7 +47,7 @@ fi
 if [ "$EXT" == "mp4" ]; then
 	SMALL="${1%.*}"_small.mp4
 	#create small
-	ffmpeg -y -v quiet -i "$1" -movflags +faststart -c:v libx264 -b:v 1M -maxrate 1M -vf scale=-1:$SMALL_VIDEO_SIZE "$SMALL"
+	ffmpeg -y -v quiet -i "$1" -movflags +faststart -c:v libx264 -crf 25 -vf 'scale=if(gte(iw\,ih)\,min(720\,iw)\,-2):if(lt(iw\,ih)\,min(720\,ih)\,-2)' "$SMALL"
 	if [ ! -f "$SMALL" ]; then
 		echo "Unable to create thumbnail from: $1 (maybe limits in /etc/ImageMagick-6/policy.xml)"
 		convert -list resource
