@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import './style.css'
 import App from './App'
 
-var realDisplayVh = window.innerHeight + 'px'
 function mobileCheck() {
     let navi = (navigator.userAgent || navigator.vendor || window.opera)
     if (
@@ -23,14 +22,3 @@ function mobileCheck() {
 window.isMobile = mobileCheck()
 
 ReactDOM.render(<App />, document.getElementById("root"))
-
-function resizeListener() {
-    realDisplayVh = window.innerHeight * 0.01
-    document.documentElement.style.setProperty("--vh", `${realDisplayVh}px`)
-    if (document.getElementById("root") !== null) {
-        document.getElementById("root").style.height = (realDisplayVh * 100) + "px"
-    }
-}
-
-resizeListener()
-window.addEventListener("resize", resizeListener)

@@ -84,8 +84,8 @@
 }
 
 .root {
-    width: 100%;
-    height: 100%;
+    width: 100dwv;
+    height: 100dvh;
     overflow: hidden;
     padding: 0rem;
     background-color: black;

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-EXTENSIONS="jpg jpeg tif tiff png mp4"
+EXTENSIONS="jpg jpeg tif tiff png mp4 webp"
 SMALL_SIZE=1280
-SMALL_VIDEO_SIZE=720
+SMALL_VIDEO_SIZE=1280
 SMALL_QUALITY=85
 THUMB_SIZE=128
 THUMB_QUALITY=75
@@ -47,7 +47,7 @@ fi
 if [ "$EXT" == "mp4" ]; then
 	SMALL="${1%.*}"_small.mp4
 	#create small
-	ffmpeg -y -v quiet -i "$1" -movflags +faststart -c:v libx264 -crf 25 -vf 'scale=if(gte(iw\,ih)\,min(720\,iw)\,-2):if(lt(iw\,ih)\,min(720\,ih)\,-2)' "$SMALL"
+	ffmpeg -y -v quiet -i "$1" -movflags +faststart -c:v libx264 -crf 24 -vf 'scale=if(gte(iw\,ih)\,min(720\,iw)\,-2):if(lt(iw\,ih)\,min(720\,ih)\,-2)' "$SMALL"
 	if [ ! -f "$SMALL" ]; then
 		echo "Unable to create thumbnail from: $1 (maybe limits in /etc/ImageMagick-6/policy.xml)"
 		convert -list resource
@@ -57,7 +57,7 @@ if [ "$EXT" == "mp4" ]; then
 	touch --date="@$MTIME_ORIG" "$SMALL"
 
 	#create thumbnail
-	ffmpeg -y -v quiet -ss 00:00:05 -i "$1" -frames:v 1 -vf scale=-1:$THUMB_SIZE "$THUMB".webp
+	ffmpeg -y -v quiet -ss 00:00:03 -i "$1" -frames:v 1 -vf scale=-1:$THUMB_SIZE "$THUMB".webp
 	if [ ! -f "$THUMB".webp ]; then
 		echo "Unable to create thumbnail from: $1 (maybe limits in /etc/ImageMagick-6/policy.xml)"
 		convert -list resource
